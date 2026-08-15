@@ -1,0 +1,214 @@
+#+title: Database Applicazione eBookShelf
+
+* Wishlist
+
+** Il Signore degli Anelli :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+
+** Il Signore degli Anelloni :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+** Il Signore degli Anellini :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+
+
+** Il Signore degli Anellazzi :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+
+
+
+
+** Il Signore delle catenine :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+
+
+
+** Il Signore degli Anelli 3 la vandetta :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+** Il Signore dei Torii :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 20
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+
+** Il Signore dei nastri di moebius :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+
+** Il Signore degddddli Anelli :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 18
+:RATING: 0
+:END:
+
+*** Descrizione del libro
+Un epico viaggio per distruggere l'Unico Anello.
+
+*** Recensione del libro
+Non ancora letto.
+
+
+** Il Signore degddddli Anelli :fantasy:classico:
+:PROPERTIES:
+:AUTHOR: J.R.R. Tolkien
+:INSERT_DATE: 2026-08-15
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=LOTR
+:WIDTH: 3
+:RATING: 0
+:END:
+
+
+
+* Owned
+
+** Clean Code :programmazione:tecnico:
+:PROPERTIES:
+:AUTHOR: Robert C. Martin
+:INSERT_DATE: 2026-01-10
+:FORMAT: ebook
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=Clean+Code
+:WIDTH: 8
+:RATING: 4.5
+:END:
+
+*** Descrizione del libro
+Manuale fondamentale per scrivere codice pulito e manutenibile.
+
+*** Recensione del libro
+Una lettura obbligata per ogni sviluppatore, anche se alcuni concetti sono un po' datati. Molto utile.
+
+** Guida Galattica per gli Autostoppisti :fantascienza:umorismo:
+:PROPERTIES:
+:AUTHOR: Douglas Adams
+:INSERT_DATE: 2025-11-20
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=Guida+Galattica
+:WIDTH: 5
+:RATING: 5
+:END:
+
+*** Descrizione del libro
+Niente panico. E ricordati l'asciugamano.
+
+*** Recensione del libro
+Geniale, divertente e filosofico al tempo stesso.
+
+** Guida Galattica per gli lllll :fantascienza:umorismo:
+:PROPERTIES:
+:AUTHOR: Douglas Adams
+:INSERT_DATE: 2025-11-20
+:FORMAT: fisico
+:COVER_PNG: https://via.placeholder.com/300x450.png?text=Guida+Galattica
+:WIDTH: 5
+:RATING: 5
+:END:
+
+*** Descrizione del libro
+Niente panico. E ricordati l'asciugamano.
+
+*** Recensione del libro
+Geniale, divertente e filosofico al tempo stesso.#+title: Database

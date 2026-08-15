@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} - Dettaglio Libro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <a href="/" class="text-indigo-600 hover:underline mb-6 inline-block">&larr; Torna alla Libreria</a>
+
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden flex flex-col md:flex-row">
+            <!-- Colonna Copertina -->
+            <div class="md:w-1/3 bg-gray-200 p-8 flex justify-center items-center">
+                {% if book.cover_png %}
+                <img src="{{ book.cover_png }}" alt="Copertina {{ book.title }}" class="max-w-full h-auto shadow-md rounded">
+                {% else %}
+                <div class="w-48 h-72 border-2 border-dashed border-gray-400 flex items-center justify-center text-gray-500">
+                    Copertina Non Disponibile
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Colonna Dettagli -->
+            <div class="md:w-2/3 p-8">
+                <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-1">{{ book.section }}</div>
+                <h1 class="text-3xl font-bold mb-2">{{ book.title }}</h1>
+                <p class="text-xl text-gray-600 mb-6">di {{ book.author }}</p>
+
+                <!-- Sistema di Valutazione -->
+                {% if book.rating > 0 %}
+                <div class="mb-6 flex items-center">
+                    <span class="font-bold mr-2 text-gray-700">Valutazione:</span>
+                    <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded font-bold">
+                        {{ book.rating }} / 5.0
+                    </span>
+                </div>
+                {% endif %}
+
+                <div class="grid grid-cols-2 gap-4 mb-8 text-sm border-t border-b py-4">
+                    <div><span class="text-gray-500">Inserito il:</span> <br> {{ book.insert_date or 'N/D' }}</div>
+                    <div><span class="text-gray-500">Formato:</span> <br> <span class="capitalize">{{ book.format }}</span></div>
+                    <div class="col-span-2">
+                        <span class="text-gray-500">Tag:</span> <br>
+                        <div class="mt-1 flex gap-2">
+                            {% for tag in book.tags %}
+                            <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">{{ tag }}</span>
+                            {% endfor %}
+                            {% if not book.tags %}<span class="text-gray-400">Nessun tag</span>{% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testi (Descrizione e Recensione) -->
+                <div class="mb-6">
+                    <h2 class="text-xl font-bold mb-2 border-b pb-1">Descrizione</h2>
+                    <p class="text-gray-700 leading-relaxed">{{ book.description | safe if book.description else 'Nessuna descrizione inserita.' }}</p>
+                </div>
+
+                <div>
+                    <h2 class="text-xl font-bold mb-2 border-b pb-1">Recensione Personale</h2>
+                    <div class="bg-gray-50 p-4 rounded text-gray-700 leading-relaxed">
+                        {{ book.review | safe if book.review else 'Nessuna recensione inserita per questo libro.' }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eBookShelf</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .spine-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            padding: 20px;
+            background-color: #8b5a2b; /* Colore mensola di legno */
+            border-bottom: 15px solid #5c3a21;
+            min-height: 250px;
+            overflow-x: auto;
+        }
+        .spine {
+            background-color: #2c3e50;
+            color: white;
+            border-radius: 3px 3px 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            cursor: pointer;
+            box-shadow: inset -2px 0 5px rgba(0,0,0,0.3), 2px 0 3px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+            height: 200px; /* Altezza fissa uniforme per la costa */
+        }
+        .spine:hover {
+            transform: translateY(-10px);
+        }
+        .spine-text {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 0.85rem;
+            max-height: 140px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold mb-8 text-center text-indigo-900">La Mia Libreria</h1>
+
+        <!-- Controlli: Filtri e Visualizzazioni -->
+        <div class="bg-white p-4 rounded-lg shadow mb-8 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex gap-4">
+                <select id="filter-section" class="border p-2 rounded">
+                    <option value="all">Tutte le Liste</option>
+                    <option value="Owned">Letti / Posseduti</option>
+                    <option value="Wishlist">Wishlist (Da Leggere)</option>
+                </select>
+                <select id="filter-format" class="border p-2 rounded">
+                    <option value="all">Tutti i Formati</option>
+                    <option value="fisico">Libro Fisico</option>
+                    <option value="ebook">eBook / Digitale</option>
+                </select>
+                <input type="text" id="filter-tag" placeholder="Filtra per Tag..." class="border p-2 rounded">
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="setView('shelf')" id="btn-shelf" class="bg-indigo-600 text-white px-4 py-2 rounded shadow">Scaffale</button>
+                <button onclick="setView('catalog')" id="btn-catalog" class="bg-gray-200 text-gray-800 px-4 py-2 rounded shadow">Catalogo</button>
+            </div>
+        </div>
+
+        <!-- Visualizzazione a Scaffale -->
+        <div id="view-shelf" class="mb-12">
+            <div class="spine-container rounded" id="shelf-container">
+                {% for book in books %}
+                <a href="/book/{{ book.id }}"
+                   class="spine book-item"
+                   data-section="{{ book.section }}"
+                   data-format="{{ book.format.lower() }}"
+                   data-tags="{{ book.tags | join(',') }}"
+                   style="width: {{ book.width * 10 }}px; background-color: {% if book.section == 'Wishlist' %}#7f8c8d{% else %}#2980b9{% endif %};">
+                    <span class="text-xs font-bold">{{ book.author[:3] | upper }}</span>
+                    <span class="spine-text">{{ book.title }}</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Visualizzazione a Catalogo -->
+        <div id="view-catalog" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for book in books %}
+            <a href="/book/{{ book.id }}"
+               class="book-item bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex gap-4"
+               data-section="{{ book.section }}"
+               data-format="{{ book.format.lower() }}"
+               data-tags="{{ book.tags | join(',') }}">
+
+                <div class="w-24 h-36 bg-gray-200 flex-shrink-0">
+                    {% if book.cover_png %}
+                    <img src="{{ book.cover_png }}" alt="Copertina" class="w-full h-full object-cover rounded">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center border">Nessuna Immagine</div>
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-bold text-lg leading-tight">{{ book.title }}</h3>
+                        <p class="text-sm text-gray-600">{{ book.author }}</p>
+                        <div class="mt-2 flex flex-wrap gap-1">
+                            {% for tag in book.tags %}
+                            <span class="text-[10px] bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full uppercase">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2">
+                        Lista: <strong>{{ book.section }}</strong> | Formato: {{ book.format }}
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Gestione Visualizzazione
+        function setView(view) {
+            const shelf = document.getElementById('view-shelf');
+            const catalog = document.getElementById('view-catalog');
+            const btnShelf = document.getElementById('btn-shelf');
+            const btnCatalog = document.getElementById('btn-catalog');
+
+            if (view === 'shelf') {
+                shelf.classList.remove('hidden');
+                catalog.classList.add('hidden');
+                btnShelf.classList.replace('bg-gray-200', 'bg-indigo-600');
+                btnShelf.classList.replace('text-gray-800', 'text-white');
+                btnCatalog.classList.replace('bg-indigo-600', 'bg-gray-200');
+                btnCatalog.classList.replace('text-white', 'text-gray-800');
+            } else {
+                shelf.classList.add('hidden');
+                catalog.classList.remove('hidden');
+                btnCatalog.classList.replace('bg-gray-200', 'bg-indigo-600');
+                btnCatalog.classList.replace('text-gray-800', 'text-white');
+                btnShelf.classList.replace('bg-indigo-600', 'bg-gray-200');
+                btnShelf.classList.replace('text-white', 'text-gray-800');
+            }
+        }
+
+        // Sistema di filtraggio
+        function filterBooks() {
+            const section = document.getElementById('filter-section').value.toLowerCase();
+            const format = document.getElementById('filter-format').value.toLowerCase();
+            const tagSearch = document.getElementById('filter-tag').value.toLowerCase();
+            
+            const books = document.querySelectorAll('.book-item');
+            
+            books.forEach(book => {
+                const bSection = book.getAttribute('data-section').toLowerCase();
+                const bFormat = book.getAttribute('data-format').toLowerCase();
+                const bTags = book.getAttribute('data-tags').toLowerCase();
+                
+                const matchSection = (section === 'all' || bSection === section);
+                const matchFormat = (format === 'all' || bFormat.includes(format));
+                const matchTag = (tagSearch === '' || bTags.includes(tagSearch));
+                
+                if (matchSection && matchFormat && matchTag) {
+                    book.style.display = book.classList.contains('spine') ? 'flex' : 'flex';
+                } else {
+                    book.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('filter-section').addEventListener('change', filterBooks);
+        document.getElementById('filter-format').addEventListener('change', filterBooks);
+        document.getElementById('filter-tag').addEventListener('input', filterBooks);
+    </script>
+</body>
+</html>

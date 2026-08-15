@@ -1,0 +1,23 @@
+#+title: Database Applicazione eBookShelf
+
+* Wishlist
+
+** Titolo Libro :tag1:tag2:tag3:tag4:
+:PROPERTIES:
+:AUTHOR:   Autore
+:INSERT_DATE: today
+:FORMAT: ebook, fisico
+:COVER_PNG: png della copertina
+:WIDTH: numero da 1 a 20 che indica lo spessore del libro
+:RATING: numero da 1 a 5 (con frazionari)
+:END:
+
+*** Descrizione del libro
+
+LIPSUM
+
+*** Recensione del libro
+
+LIPSUM
+
+* Owned

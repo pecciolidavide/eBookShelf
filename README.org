@@ -19,6 +19,7 @@ L'applicazione deve prevedere due modalità principali per scorrere la libreria:
 ** 3. Ordinamento, Filtri e Tag
 - Ordinamento di default in ordine alfabetico.
 - Criteri di ordinamento modificabili (es. per data di aggiunta, alfabetico).
+- Filtrare per ebook o formato digitale
 - Sistema di Tagging per organizzare i libri (es. per Genere) e filtrarli facilmente.
 
 ** 4. Pagina di Dettaglio del Singolo Libro
