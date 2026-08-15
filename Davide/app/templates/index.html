@@ -6,15 +6,21 @@
     <title>eBookShelf</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        #shelf-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 40px; /* Spazio verticale tra uno scaffale e l'altro */
+        }
         .spine-container {
             display: flex;
             align-items: flex-end;
             gap: 4px;
-            padding: 20px;
-            background-color: #8b5a2b; /* Colore mensola di legno */
+            padding: 20px 20px 0 20px;
+            background-color: #8b5a2b; 
             border-bottom: 15px solid #5c3a21;
-            min-height: 250px;
-            overflow-x: auto;
+            border-radius: 4px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+            min-height: 220px;
         }
         .spine {
             background-color: #2c3e50;
@@ -28,7 +34,7 @@
             cursor: pointer;
             box-shadow: inset -2px 0 5px rgba(0,0,0,0.3), 2px 0 3px rgba(0,0,0,0.5);
             transition: transform 0.2s;
-            height: 200px; /* Altezza fissa uniforme per la costa */
+            height: 200px;
         }
         .spine:hover {
             transform: translateY(-10px);
@@ -71,20 +77,23 @@
             </div>
         </div>
 
-        <!-- Visualizzazione a Scaffale -->
+        <!-- Visualizzazione a Scaffale Multiplo -->
         <div id="view-shelf" class="mb-12">
-            <div class="spine-container rounded" id="shelf-container">
-                {% for book in books %}
-                <a href="/book/{{ book.id }}"
-                   class="spine book-item"
-                   data-section="{{ book.section }}"
-                   data-format="{{ book.format.lower() }}"
-                   data-tags="{{ book.tags | join(',') }}"
-                   style="width: {{ book.width * 10 }}px; background-color: {% if book.section == 'Wishlist' %}#7f8c8d{% else %}#2980b9{% endif %};">
-                    <span class="text-xs font-bold">{{ book.author[:3] | upper }}</span>
-                    <span class="spine-text">{{ book.title }}</span>
-                </a>
-                {% endfor %}
+            <div id="shelf-wrapper">
+                <!-- Contenitore iniziale per i libri prima del ricalcolo JS -->
+                <div class="spine-container" id="initial-shelf">
+                    {% for book in books %}
+                    <a href="/book/{{ book.id }}"
+                       class="spine book-item"
+                       data-section="{{ book.section }}"
+                       data-format="{{ book.format.lower() }}"
+                       data-tags="{{ book.tags | join(',') }}"
+                       style="width: {{ book.width * 10 }}px; background-color: {% if book.section == 'Wishlist' %}#7f8c8d{% else %}#2980b9{% endif %};">
+                        <span class="text-xs font-bold">{{ book.author[:3] | upper }}</span>
+                        <span class="spine-text">{{ book.title }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
 
@@ -125,6 +134,49 @@
     </div>
 
     <script>
+        // Logica per dividere dinamicamente i libri su più scaffali
+        function organizeShelves() {
+            const wrapper = document.getElementById('shelf-wrapper');
+            const allSpines = Array.from(document.querySelectorAll('.spine.book-item'));
+            
+            if(allSpines.length === 0) return;
+
+            // Calcolo dello spazio disponibile meno il padding
+            const availableWidth = wrapper.clientWidth - 40; 
+            
+            wrapper.innerHTML = '';
+            let currentShelf = document.createElement('div');
+            currentShelf.className = 'spine-container';
+            let currentWidth = 0;
+
+            allSpines.forEach(spine => {
+                if (spine.style.display !== 'none') {
+                    const bookWidth = parseInt(spine.style.width) || 50;
+                    const gap = 4;
+                    
+                    if (currentWidth + bookWidth + gap > availableWidth && currentWidth > 0) {
+                        wrapper.appendChild(currentShelf);
+                        currentShelf = document.createElement('div');
+                        currentShelf.className = 'spine-container';
+                        currentWidth = 0;
+                    }
+                    
+                    currentShelf.appendChild(spine);
+                    currentWidth += bookWidth + gap;
+                } else {
+                    currentShelf.appendChild(spine);
+                }
+            });
+
+            if (currentShelf.children.length > 0) {
+                wrapper.appendChild(currentShelf);
+            }
+        }
+
+        // Avvio e ricalcolo al ridimensionamento
+        window.addEventListener('DOMContentLoaded', organizeShelves);
+        window.addEventListener('resize', organizeShelves);
+
         // Gestione Visualizzazione
         function setView(view) {
             const shelf = document.getElementById('view-shelf');
@@ -139,6 +191,7 @@
                 btnShelf.classList.replace('text-gray-800', 'text-white');
                 btnCatalog.classList.replace('bg-indigo-600', 'bg-gray-200');
                 btnCatalog.classList.replace('text-white', 'text-gray-800');
+                organizeShelves(); // Ricalcola in caso di cambi
             } else {
                 shelf.classList.add('hidden');
                 catalog.classList.remove('hidden');
@@ -172,6 +225,11 @@
                     book.style.display = 'none';
                 }
             });
+
+            // Se la vista a scaffale è attiva, ridistribuiamo i libri visibili
+            if (!document.getElementById('view-shelf').classList.contains('hidden')) {
+                organizeShelves();
+            }
         }
 
         document.getElementById('filter-section').addEventListener('change', filterBooks);

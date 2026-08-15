@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from flask import Flask, render_template, request, abort
 import re
 import os
@@ -19,17 +17,14 @@ def parse_org_db(file_path="database.org"):
         for line in f:
             stripped = line.strip()
 
-            # Sezioni (Wishlist, Owned, ecc.)
             if stripped.startswith("* "):
                 current_section = stripped[2:].strip()
 
-            # Titoli e Tag
             elif stripped.startswith("** "):
                 if current_book:
                     books.append(current_book)
 
                 title_tags = stripped[3:].strip()
-                # Divide per i due punti per separare titolo e tag
                 parts = [p for p in title_tags.split(':') if p]
                 title = parts[0].strip() if parts else title_tags
                 tags_list = [t.strip() for t in parts[1:]] if len(parts) > 1 else []
@@ -50,11 +45,9 @@ def parse_org_db(file_path="database.org"):
                 }
                 text_mode = None
 
-            # Ignora i delimitatori del cassetto delle proprietà
             elif stripped.startswith(":PROPERTIES:") or stripped.startswith(":END:"):
                 continue
 
-            # Estrazione Proprietà
             elif stripped.startswith(":") and current_book and not text_mode:
                 match = re.match(r':([A-Z_]+):\s*(.*)', stripped)
                 if match:
@@ -70,14 +63,12 @@ def parse_org_db(file_path="database.org"):
                     else:
                         current_book[key] = val.strip()
 
-            # Testi lunghi (Descrizione e Recensione)
             elif stripped.startswith("*** "):
                 if "Descrizione" in stripped:
                     text_mode = "description"
                 elif "Recensione" in stripped:
                     text_mode = "review"
 
-            # Aggiunta righe ai testi lunghi
             elif text_mode and current_book:
                 if line.strip() != "":
                     current_book[text_mode] += line + "<br>"
@@ -85,7 +76,6 @@ def parse_org_db(file_path="database.org"):
         if current_book:
             books.append(current_book)
 
-    # Ordinamento di default: Alfabetico per titolo
     books.sort(key=lambda x: x["title"].lower())
     return books
 
@@ -103,5 +93,4 @@ def book_detail(book_id):
     return render_template("detail.html", book=book)
 
 if __name__ == "__main__":
-    # Avvio su localhost:1234
     app.run(host="127.0.0.1", port=1234, debug=True)
