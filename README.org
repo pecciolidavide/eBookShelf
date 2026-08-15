@@ -1,0 +1,41 @@
+#+title: Progetto eBookShelf
+
+* Introduzione
+Questo progetto consiste in un'applicazione o sito web dedicato alla gestione del proprio catalogo di libri. Permette all'utente di tenere traccia dei libri letti, da leggere e di organizzare la propria libreria virtuale con un'interfaccia curata e funzionale.
+
+* Funzionalità Principali
+
+** 1. Gestione Catalogo e Stato di Lettura
+- Inserimento di nuovi libri nel catalogo (tramite compilazione manuale o recupero automatico dei dati di Titolo, Autore, ecc.).
+- Possibilità di marcare e gestire lo stato di un libro (letto, non letto).
+- Separazione logica tra i libri letti e quelli non letti.
+
+** 2. Visualizzazione Doppia (Catalogo e Scaffale)
+L'applicazione deve prevedere due modalità principali per scorrere la libreria:
+- Visualizzazione a Catalogo: classica lista con i dettagli.
+- Visualizzazione a Scaffale (Libreria): i libri devono essere mostrati esponendo esclusivamente la *costa* (dorso) del libro, simulando una vera libreria fisica. In questa vista la copertina frontale non deve essere visibile.
+- Spessore Dinamico: nella vista a scaffale, la larghezza della costa deve essere proporzionale alle dimensioni effettive del libro (numero di pagine).
+
+** 3. Ordinamento, Filtri e Tag
+- Ordinamento di default in ordine alfabetico.
+- Criteri di ordinamento modificabili (es. per data di aggiunta, alfabetico).
+- Sistema di Tagging per organizzare i libri (es. per Genere) e filtrarli facilmente.
+
+** 4. Pagina di Dettaglio del Singolo Libro
+- Cliccando su un libro si apre una scheda dedicata.
+- In questa sezione deve essere visibile la copertina completa, il titolo e l'autore.
+- Presenza di un'area per scrivere e salvare una recensione testuale personale del libro.
+
+** 5. Sistema di Valutazione (Rating)
+- Sistema di valutazione a 5 stelle per i libri letti.
+- Supporto obbligatorio per le valutazioni frazionarie (mezze stelle).
+
+** 6. Liste Speciali e Wishlist
+- Creazione di categorie o liste separate, come ad esempio una "Wishlist" per i libri che si desidera acquistare in futuro.
+
+* Requisiti di Interfaccia (UI/UX)
+- Il design deve essere esteticamente piacevole e curato.
+- L'esperienza utente deve essere fluida sia nella gestione dei dati sia nella visualizzazione a scaffale.
+
+* Dettagli Tecnici e Piattaforma
+- Architettura: Indifferente. Il progetto puo' essere sviluppato come Applicazione Mobile, Desktop o Sito Web, purche' rispetti le specifiche di design e funzionalita' richieste.
