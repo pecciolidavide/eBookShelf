@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, request, abort, redirect, url_for
 import re
 import os
+import base64
 
 app = Flask(__name__)
 
@@ -79,6 +80,70 @@ def parse_org_db(file_path="database.org"):
     books.sort(key=lambda x: x["title"].lower())
     return books
 
+def update_cover_in_db(book_id, file_storage, file_path="database.org"):
+    if not file_storage or file_storage.filename == "":
+        return False
+
+    try:
+        mime_type = file_storage.mimetype
+        # Converte il file caricato in formato stringa BASE 64
+        base64_data = base64.b64encode(file_storage.read()).decode('utf-8')
+        # Crea l'URI dei dati standard per HTML
+        data_uri = f"data:{mime_type};base64,{base64_data}"
+    except Exception:
+        return False
+
+    if not os.path.exists(file_path):
+        return False
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+
+    current_index = -1
+    in_target_book = False
+    in_properties = False
+    updated = False
+
+    new_lines = []
+
+    for line in lines:
+        stripped = line.strip()
+
+        # Identifica il libro in base all'ordine di parsing
+        if stripped.startswith("** "):
+            current_index += 1
+            if current_index == book_id:
+                in_target_book = True
+            else:
+                in_target_book = False
+
+        if in_target_book:
+            if stripped == ":PROPERTIES:":
+                in_properties = True
+                new_lines.append(line)
+                continue
+
+            if in_properties:
+                if stripped.startswith(":COVER_PNG:"):
+                    # Sostituisce la riga esistente della copertina
+                    new_lines.append(f":COVER_PNG: {data_uri}\n")
+                    updated = True
+                    continue
+                elif stripped == ":END:":
+                    if not updated:
+                        # Inserisce la voce se non esisteva in precedenza
+                        new_lines.append(f":COVER_PNG: {data_uri}\n")
+                        updated = True
+                    in_properties = False
+
+        new_lines.append(line)
+
+    # Riscrive il database con il dato aggiornato
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.writelines(new_lines)
+
+    return True
+
 @app.route("/")
 def index():
     books = parse_org_db()
@@ -91,6 +156,16 @@ def book_detail(book_id):
     if not book:
         abort(404)
     return render_template("detail.html", book=book)
+
+@app.route("/upload_cover/<int:book_id>", methods=["POST"])
+def upload_cover(book_id):
+    if "cover_image" not in request.files:
+        return redirect(url_for("book_detail", book_id=book_id))
+
+    file_storage = request.files["cover_image"]
+    update_cover_in_db(book_id, file_storage)
+
+    return redirect(url_for("book_detail", book_id=book_id))
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=1234, debug=True)
